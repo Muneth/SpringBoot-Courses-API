@@ -29,6 +29,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         this.jwtHelper = jwtHelper;
     }
 
+//    if the request is for refresh token then we will not check for the access token and just pass the request to the next filter
+//    Extracting the access token from the request header
+//    Extract and verify the validity of the token and then  extracting the email and roles from the token
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals("/refresh-token")) {

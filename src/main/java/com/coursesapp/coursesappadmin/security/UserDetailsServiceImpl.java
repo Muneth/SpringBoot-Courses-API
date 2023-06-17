@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,6 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userService = userService;
     }
 
+//    This method is used by the Spring Security to load a user by email address to authenticate the user during login
+//    and returns a UserDetails object that Spring Security can use for authentication and validation.
+//    The method also assigns different roles to the user by looping through the roles and adding them to the authorities' collection.
+//    Finally, the method returns a Spring Security User object with the user's email, password and authorities.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.loadUserByEmail(email);

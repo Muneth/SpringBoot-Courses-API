@@ -13,9 +13,10 @@ public class CoursesAppAdminApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoursesAppAdminApplication.class, args);
 	}
+
+//	Bring in the password encoder, @Bean annotation makes it available to the application
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

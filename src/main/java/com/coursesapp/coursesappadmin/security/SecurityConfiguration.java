@@ -30,10 +30,18 @@ public class SecurityConfiguration {
     @Autowired
     private JWTHelper jwtHelper;
 
+//    Bring in HttpSecurity through SecurityFilterChain
+//    Disabling CORS and CSRF
+//    Setting the session creation policy to STATELESS so that the server does not create a session for the user and the user has to send the JWT token with every request
+//    Allowing access to the refresh-token endpoint without authentication
+//    Allowing access to all other endpoints only with authentication
+//    Adding the JWTAuthenticationFilter and JWTAuthorizationFilter to the filter chain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+//  Allowing access to the refresh-token endpoint without authentication to allow the user to get a new access token
         http.authorizeRequests().antMatchers("/refresh-token/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtHelper));
@@ -50,7 +58,6 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-       // configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type", "Authorization"));
         configuration.setAllowedMethods(Arrays.asList("DELETE","GET","POST","PATCH","PUT"));
